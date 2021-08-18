@@ -48,7 +48,6 @@
     <Compile Include="src\Base\GlobalDispatcher.cs" />
     <Compile Include="src\Base\Listener.cs" />
     <Compile Include="src\Base\Message.cs" />
-    <Compile Include="src\Base\GSender.cs" />
     <Compile Include="src\Base\Service.cs" />
     <Compile Include="src\Base\ServiceStaticPart.cs" />
     <Compile Include="src\Interfaces\IDispatcher.cs" />

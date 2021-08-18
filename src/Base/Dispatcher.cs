@@ -9,7 +9,7 @@ namespace GMessage
 
         protected Dictionary<IListener, List<int>> listeners;
 
-        public event Action<IMessage> Receiving;
+        public Action<IMessage> Receiving;
 
         public int ID { get; protected set; }
 
@@ -26,7 +26,11 @@ namespace GMessage
         public virtual void Receive(IMessage message)
         {
             Receiving?.Invoke(message);
+            Dispatch(message);
+        }
 
+        public void Dispatch(IMessage message)
+        {
             foreach (var pair in listeners)
             {
                 if (pair.Value.Contains(message.ID))
@@ -83,10 +87,8 @@ namespace GMessage
 
         #region dispose
 
-        public void Dispose()
+        public virtual void Dispose()
         {
-            Receiving = null;
-
             listeners = null;
             _expectedListeners = null;
 

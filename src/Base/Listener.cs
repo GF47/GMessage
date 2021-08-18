@@ -4,11 +4,10 @@ namespace GMessage
 {
     public abstract class Listener<T> : IListener where T : IDispatcher
     {
-        public abstract T Dispatcher { get; }
+        public abstract T GetDispatcher();
+        IDispatcher IListener.GetDispatcher() => GetDispatcher();
 
         public abstract void Receive(IMessage message);
-
-        public IDispatcher GetDispatcher() => Dispatcher;
 
         public void Register(IList<int> messageID)
         {

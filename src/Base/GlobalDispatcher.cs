@@ -4,5 +4,6 @@
     {
         public static GlobalDispatcher Instance => Instance<GlobalDispatcher>(GLOBAL) ?? Add<GlobalDispatcher>(GLOBAL);
 
-        public override IDispatcher GetDispatcher() => null; }
+        public override IDispatcher GetDispatcher() => null;
+    }
 }

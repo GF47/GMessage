@@ -7,7 +7,9 @@ namespace GMessage
         void Receive(IMessage message);
 
         IDispatcher GetDispatcher();
+
         void Register(IList<int> messageID);
+
         void UnRegister(IList<int> messageID);
     }
 }
