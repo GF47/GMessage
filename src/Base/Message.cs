@@ -1,12 +1,12 @@
 ﻿namespace GMessage
 {
-    public class Message : IMessage
+    public struct Message : IMessage
     {
-        public virtual int ID { get; protected set; }
+        public int ID { get; private set; }
 
-        public virtual object Sender { get; protected set; }
+        public object Sender { get; private set; }
 
-        public virtual object Content { get; set; }
+        public object Content { get; set; }
 
         public Message(int id, object sender = null, object content = null)
         {
@@ -15,10 +15,7 @@
             Content = content;
         }
 
-        public override string ToString()
-        {
-            return Content.ToString();
-        }
+        public override string ToString() => Content?.ToString();
     }
 
     public static class MessageUtil
