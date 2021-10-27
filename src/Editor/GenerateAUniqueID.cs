@@ -113,11 +113,11 @@ namespace GMessage.Editor
                 var node = _list[i];
                 newString += string.Format(
                     "\r\n\r\n" +
-                    "       /// <summary>\r\n" +
-                    "       /// {0}\r\n" +
-                    "       /// </summary>\r\n" +
-                    "       [System.ComponentModel.Description(\"{0}\")]\r\n" +
-                    "       public const int {1} = {2};\r\n"
+                    "        /// <summary>\r\n" +
+                    "        /// {0}\r\n" +
+                    "        /// </summary>\r\n" +
+                    "        [System.ComponentModel.Description(\"{0}\")]\r\n" +
+                    "        public const int {1} = {2};\r\n"
                     , node._comment, node._name, (int)dt.ToBinary());
             }
             if (!File.Exists(_filePath))

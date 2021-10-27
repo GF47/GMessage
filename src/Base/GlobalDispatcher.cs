@@ -2,7 +2,7 @@
 {
     public sealed class GlobalDispatcher : Dispatcher
     {
-        public static GlobalDispatcher Instance => Instance<GlobalDispatcher>(GLOBAL) ?? Add<GlobalDispatcher>(GLOBAL);
+        public static GlobalDispatcher Instance => Instance<GlobalDispatcher>(GLOBAL);
 
         public override IDispatcher GetDispatcher() => null;
     }

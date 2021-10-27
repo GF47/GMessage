@@ -17,7 +17,6 @@ namespace GMessage
         ISubmitHandler,
         ICancelHandler
     {
-
         public int moduleID = Dispatcher.GLOBAL;
 
         [Serializable]
@@ -33,14 +32,11 @@ namespace GMessage
                 return type == b.type && id == b.id && content == b.content && commonContent == b.commonContent;
             }
         }
+
         public List<MessageData> Triggers => _triggers;
+
         [SerializeField]
         private List<MessageData> _triggers = new List<MessageData>();
-
-        private Dispatcher GetDispatcher()
-        {
-            return Dispatcher.Instance<Dispatcher>(moduleID);
-        }
 
         #region 响应方法
 
@@ -50,9 +46,8 @@ namespace GMessage
             {
                 if (_triggers[i].type == type)
                 {
-                    new Message(_triggers[i].id, this,
-                                _triggers[i].commonContent == null ? _triggers[i].content : _triggers[i].commonContent()
-                    ).DispatchTo(GetDispatcher());
+                    new Message(_triggers[i].id, this, _triggers[i].commonContent?.Invoke() ?? _triggers[i].content)
+                        .DispatchTo(moduleID);
                 }
             }
         }
@@ -107,6 +102,6 @@ namespace GMessage
             Execute(EventTriggerType.UpdateSelected);
         }
 
-        #endregion
+        #endregion 响应方法
     }
 }

@@ -5,7 +5,11 @@ namespace GMessage
 {
     public abstract partial class Dispatcher : IDispatcher, IDisposable
     {
-        private List<IListener> _expectedListeners;
+        // private List<IListener> _expectedListeners; // TODO BUG 当消息内嵌套消息时，会重复发送或者向无关的监听者发送
+
+        private const int MAX_LAYER = 4;
+        private int _currentLayer = -1;
+        private List<IListener>[] _expectedListeners;
 
         protected Dictionary<IListener, List<int>> listeners;
 
@@ -19,7 +23,11 @@ namespace GMessage
         {
             ID = id;
 
-            _expectedListeners = new List<IListener>();
+            _expectedListeners = new List<IListener>[MAX_LAYER]; // 嵌套多层就多少有点大病了……
+            for (int i = 0; i < MAX_LAYER; i++)
+            {
+                _expectedListeners[i] = new List<IListener>();
+            }
             listeners = new Dictionary<IListener, List<int>>();
         }
 
@@ -31,20 +39,31 @@ namespace GMessage
 
         public void Dispatch(IMessage message)
         {
+            _currentLayer++;
+
+            if (_currentLayer >= MAX_LAYER)
+            {
+                throw new Exception($"Module {ID} dispatch layer > {MAX_LAYER - 1}, do not do that.");
+            }
+
+            var list = _expectedListeners[_currentLayer];
+
             foreach (var pair in listeners)
             {
                 if (pair.Value.Contains(message.ID))
                 {
-                    _expectedListeners.Add(pair.Key);
+                    list.Add(pair.Key);
                 }
             }
 
-            for (int i = 0; i < _expectedListeners.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
-                _expectedListeners[i].Receive(message);
+                list[i].Receive(message);
             }
 
-            _expectedListeners.Clear();
+            list.Clear();
+
+            _currentLayer--;
         }
 
         public void Register(IListener listener, IList<int> messageID)
