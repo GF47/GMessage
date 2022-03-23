@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace GMessage
 {
-    public abstract class UnityListener<T> : Listener<T> where T : IDispatcher
+    public abstract class UnityListener<T> : MonoListener<T> where T : IDispatcher
     {
         [SerializeField]
         private Trigger[] _triggers;
